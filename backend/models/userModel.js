@@ -32,6 +32,18 @@ const userSchema = mongoose.Schema(
                 return this.role === 'student' || this.role === 'tpo';
             }
         },
+        appiledJobs: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Job',
+            }
+        ],
+        schedules: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Schedule',
+            }
+        ],
         createdAt: {
             type: Date,
             default: Date.now
