@@ -12,13 +12,13 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const { name, email, role, password } = req.body
     let existUser = await User.findOne({ email });
     if (existUser) {
-      return res.status(400).json({ msg: 'User already exists' });
+        return res.status(400).json({ msg: 'User already exists' });
     }
 
 
     const user = await User.create({
         name, email, password,
-         role: role || 'student'
+        role: role || 'student'
     })
     //creating token
     sendToken(user, 201, res)
@@ -42,7 +42,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
     if (!isPasswordMatched) return next(new Errohandler("Invalid email or password", 401))
 
 
-    if(!user.isApproved) return next(new Errohandler("Waiting for approval by TPO"), 401)
+    if (!user.isApproved) return next(new Errohandler("Waiting for approval by TPO", 401))
 
     sendToken(user, 200, res)
 
@@ -64,3 +64,36 @@ exports.logout = catchAsyncError(async (req, res, next) => {
         message: "logged out"
     })
 })
+
+
+//update profile
+
+
+exports.updateProfile = catchAsyncError(async (req, res, next) => {
+    const { profile } = req.body;
+
+    if (!profile) {
+
+        return next(new Errohandler("Profile data is required", 400));
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            profile,
+            name: profile.fullName
+        },
+        { new: true, runValidators: true }
+    );
+
+
+    if (!user) {
+        return next(new Errohandler("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Profile updated successfully",
+        user
+    });
+});

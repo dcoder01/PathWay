@@ -47,6 +47,23 @@ const userSchema = mongoose.Schema(
         createdAt: {
             type: Date,
             default: Date.now
+        },
+        profile: {
+            fullName:{type:String},
+            dob: { type: Date },
+            workEmail: { type: String },
+            phone: { type: String },
+            enrollment: { type: String },
+            registration: { type: String },
+            branch: { type: String },
+            cgpa: { type: Number, min: 0, max: 10 },
+            address: { type: String },
+            gender: { type: String, enum: ["Male", "Female", "Other"] },
+            resumeLink: { type: String },
+            gapYear: { type: Number, default: 0 },
+            tenthPercentage: { type: Number, min: 0, max: 100 },
+            twelfthPercentage: { type: Number, min: 0, max: 100 },
+            activeBacklogs: { type: Number, default: 0 }
         }
     },
     { timestamps: true }
