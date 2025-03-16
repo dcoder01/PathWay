@@ -26,4 +26,37 @@ exports.registerCompany = catchAsyncError(async (req, res, next) => {
 
 })
 
+//update comapnay details
+
+exports.getCompanies = catchAsyncError(async (req, res, next) => {  //---> coordinator will fetch this for job creation
+
+    // const companies = await Company.find({}).populate([{
+    //     path: "createdBy",
+    //     select: "name"
+    // }])
+    const companies = await Company.find({}).populate("createdBy", "name")
+
+    if (!companies) {
+        return next(new Errohandler(`No company found`, 404))
+    }
+    return res.status(200).json({
+        companies,
+        success: true
+    })
+
+})
+//get company by id
+exports.getCompanyById = catchAsyncError(async (req, res, next) => {
+
+    const companyId = req.params.companyId;
+    const company = await Company.findById(companyId);
+    if (!company) {
+        return next(new Errohandler(`No company found`, 404))
+    }
+    return res.status(200).json({
+        company,
+        success: true
+    })
+
+})
 
