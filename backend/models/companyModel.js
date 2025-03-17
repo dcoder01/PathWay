@@ -12,9 +12,9 @@ const companySchema = new mongoose.Schema({
     website:{
         type:String 
     },
-    location:{
+    location:[{
         type:String 
-    },
+    }],
     logo:{
         type:String 
     },
