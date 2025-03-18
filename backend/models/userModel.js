@@ -32,10 +32,10 @@ const userSchema = mongoose.Schema(
                 return this.role === 'student' || this.role === 'tpo';
             }
         },
-        appiledJobs: [
+        applications: [ //this is the application schema
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Job',
+                ref: 'Application',
             }
         ],
         schedules: [

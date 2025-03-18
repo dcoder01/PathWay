@@ -6,17 +6,10 @@ const ScheduleSchema = new mongoose.Schema({
         ref: "Job",
         required: true
     },
-
-    recruiter: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    
     student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }, 
+    },
     date: {
         type: Date,
         required: true
@@ -27,7 +20,8 @@ const ScheduleSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        required: true
+        enum: ['online', 'ccd', 'cse'],
+        default: "online",
     }
 }, { timestamps: true });
 

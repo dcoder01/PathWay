@@ -20,6 +20,11 @@ const ApplicationSchema = new mongoose.Schema({
         type: String,
         required: true
     }, // Cloudinary
+    schedule:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Schedule",
+    }
+    //schedule--application,from user in fetch applicants
 }, { timestamps: true });
 
 module.exports = mongoose.model("Application", ApplicationSchema);
