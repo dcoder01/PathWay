@@ -6,13 +6,14 @@ const cloudinary = require("../config/cloudinary");
 const ErrorHandler = require('../utils/errorhandler');
 const ApplicationModel = require('../models/ApplicationModel');
 const jobModel = require('../models/jobModel');
+const userModel = require('../models/userModel');
 
 exports.applyJob = catchAsyncError(async (req, res, next) => {
     const userId = req.user._id;
     const jobId = req.params.jobId;
-    const file=req.file;
+    const file = req.file;
 
-    
+
     if (!jobId || !file) {
         return next(new Errohandler("One or more fields are required.", 400))
     };
@@ -26,9 +27,12 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     if (!job) {
         return next(new Errohandler("Job not found", 400))
     }
+    const user =await userModel.findById(userId)
+    if (!user) return next(new ErrorHandler("User not found", 404))
+
 
     //cloudinary upload
-    let resume=null
+    let resume = null
     if (file) {
         const originalFilename = file.originalname.split('.')[0];
         const uniqueFilename = `${originalFilename}_${Date.now()}`;
@@ -52,7 +56,7 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     }
 
     const newApplication = await ApplicationModel.create({
-        student:userId,
+        student: userId,
         job: jobId,
         applicant: userId,
         resume
@@ -61,9 +65,79 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     job.applications.push(newApplication._id);
     await job.save();
 
+    user.appiledJobs = newApplication._id
+    await user.save()
 
     return res.status(200).json({
         success: true
     })
+
+})
+
+
+//get all the applied jobs by yourself --> student 
+//TODO:we can directly get the appliedJobs of astudent by appliedjobs field
+exports.fetchAppliedJobs = catchAsyncError(async (req, res, next) => {
+
+    const userId = req.user._id;
+    const applications = await ApplicationModel.find({ student: userId }).sort({ createdAt: -1 }).populate({
+        path: 'job',
+        options: { sort: { createdAt: -1 } },
+        populate: {
+            path: 'company',
+            options: { sort: { createdAt: -1 } },
+        }
+    });
+    if (!applications) {
+        return next(new ErrorHandler('No Applications', 400));
+    };
+    return res.status(200).json({
+        applications,
+        success: true
+    })
+
+})
+
+//fetch applicants by coordinator and recruiter
+exports.fetchApplicants = catchAsyncError(async (req, res, next) => {
+    const jobId = req.params.jobId;
+    const job = await jobModel.findById(jobId).populate({
+        path: 'applications',
+        options: { sort: { createdAt: -1 } },
+        populate: {
+            path: 'student'
+        }
+    });
+    if (!job) {
+        return next(new ErrorHandler('Job not found', 400));
+    };
+    return res.status(200).json({
+        job,
+        succees: true
+    });
+
+})
+
+//update status by coordinator and recruiter
+exports.updateStatus = catchAsyncError(async (req, res, next) => {
+    const { status } = req.body;
+    const applicationId = req.params.applicationId;
+    if (!status) {
+        return next(new ErrorHandler('status is required', 400));
+    };
+
+
+    const application = await ApplicationModel.findOne({ _id: applicationId });
+    if (!application) {
+        return next(new ErrorHandler('Application not found', 404));
+    };
+
+    application.status = status.toLowerCase();
+    await application.save();
+
+    return res.status(200).json({
+        message: "Status updated successfully.",
+        success: true
+    });
 
 })
