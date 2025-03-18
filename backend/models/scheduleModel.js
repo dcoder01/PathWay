@@ -6,9 +6,14 @@ const ScheduleSchema = new mongoose.Schema({
         ref: "Job",
         required: true
     },
-    student: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+    student: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
     date: {
         type: Date,

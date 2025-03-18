@@ -65,7 +65,7 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     job.applications.push(newApplication._id);
     await job.save();
 
-    user.appiledJobs = newApplication._id
+    user.applications = newApplication._id
     await user.save()
 
     return res.status(200).json({
