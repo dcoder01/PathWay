@@ -6,6 +6,7 @@ router.use("/tpo", require("./tpoRoute"));
 router.use("/company", require("./companyRoute"));
 router.use("/job", require("./jobRoute"));
 router.use("/application", require("./applicationRoute"));
+router.use("/schedule", require("./scheduleRoute"));
 
 
 
