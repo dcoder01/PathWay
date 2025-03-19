@@ -116,6 +116,11 @@ exports.deleteSchedule = async (req, res, next) => {
         $pull: { schedules: scheduleId }
     });
 
+    await ApplicationModel.findOneAndUpdate(
+        { student: schedule.student, job: schedule.job },
+        { $unset: { schedule: "" } } 
+    );
+
     await scheduleModel.findByIdAndDelete(scheduleId);
 
     return res.status(200).json({
