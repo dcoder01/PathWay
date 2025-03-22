@@ -3,9 +3,10 @@ import { Button } from "./components/ui/button"
 import { Route, Routes, useLocation } from "react-router-dom";
 import CheckAuth from "./components/auth/checkAuth";
 import AuthLayout from "./components/auth/AuthLayout";
-import Register from "./pages/Register";
+import Register from "./pages/auth/Register";
 import { ToastContainer } from "react-toastify";
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
+import Home from "./components/shared/Home";
 // import Login from "./pages/Login";
 
 
@@ -40,12 +41,12 @@ function App() {
           <Route path="Login" element={<Login/>} />
           <Route path="register" element={<Register />} />
         </Route>
-        {/* <Route path='/home' element={
+        <Route path='/home' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
             user={user}
           ><Home /></CheckAuth>
-        }></Route> */}
+        }></Route>
 
 
 
