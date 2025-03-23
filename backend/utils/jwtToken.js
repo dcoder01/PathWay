@@ -7,7 +7,9 @@ const sendToken = (user, statusCode, res) => {
     const safeUser = {
       _id:user._id,
       name: user.name,
+      email:user.email,
       role: user.role,
+      profile:user.profile,
       createdAt: user.createdAt,
     };
     // options for cookie

@@ -59,7 +59,7 @@ const userSchema = mongoose.Schema(
             cgpa: { type: Number, min: 0, max: 10 },
             address: { type: String },
             gender: { type: String, enum: ["Male", "Female", "Other"] },
-            resumeLink: { type: String },
+           
             gapYear: { type: Number, default: 0 },
             tenthPercentage: { type: Number, min: 0, max: 100 },
             twelfthPercentage: { type: Number, min: 0, max: 100 },
