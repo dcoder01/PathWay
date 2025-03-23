@@ -78,6 +78,19 @@ export const checkAuth = createAsyncThunk('/auth/checkAuth', async () => {
 })
 
 
+//update profile
+export const updateProfile = createAsyncThunk('/profile/update', async (formData, thunkAPI) => {
+  try {
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/user/update-profile`, {profile:formData}, { withCredentials: true });
+
+    return response.data;
+  } catch (error) {
+
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Update Failed");
+  }
+});
+
 
 // Auth Slice
 const authSlice = createSlice({
@@ -161,6 +174,20 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+      });
+
+    builder
+      .addCase(updateProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.success ? action.payload.user : null;
+        
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });

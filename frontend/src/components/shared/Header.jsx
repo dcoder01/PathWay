@@ -84,7 +84,7 @@ const Header = () => {
                                         <User2 className="w-8 h-8 text-gray-500 " />
                                         <div>
                                             <h4 className="font-medium">{user?.name}</h4>
-                                            <p className="text-sm text-muted-foreground">{user?.profile?.branch}</p>
+                
                                         </div>
                                     </div>
                                     <div className="flex flex-col mt-3 text-gray-600">

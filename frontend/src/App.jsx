@@ -7,6 +7,10 @@ import Register from "./pages/auth/Register";
 import { ToastContainer } from "react-toastify";
 import Login from "./pages/auth/Login";
 import Home from "./components/shared/Home";
+import Profile from "./components/auth/Profile";
+import { Loader } from "lucide-react";
+import { checkAuth } from "./store/authSlice";
+import { useEffect } from "react";
 // import Login from "./pages/Login";
 
 
@@ -15,19 +19,19 @@ function App() {
   const dispatch = useDispatch();
   let isAuthenticated = useSelector(state => state.authSlice.isAuthenticated);
   const { user, isLoading } = useSelector(state => state.authSlice);
-  // useEffect(() => {
-  //   dispatch(checkAuth());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
   // const location = useLocation();
   // const onHomeScreen = location.pathname.startsWith('/home')
   // const onClassScreen = location.pathname.startsWith("/enter");
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <Loader className="w-8 h-8 animate-spin" />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
   return (
     <div className='app'>
       {/* <>{onHomeScreen ? <HeaderHome /> : onClassScreen && <HeaderClass />}  </> */}
@@ -46,6 +50,12 @@ function App() {
             isAuthenticated={isAuthenticated}
             user={user}
           ><Home /></CheckAuth>
+        }></Route>
+
+        <Route path='/profile' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><Profile /></CheckAuth>
         }></Route>
 
 
