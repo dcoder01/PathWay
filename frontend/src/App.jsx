@@ -11,7 +11,8 @@ import Profile from "./components/auth/Profile";
 import { Loader } from "lucide-react";
 import { checkAuth } from "./store/authSlice";
 import { useEffect } from "react";
-// import Login from "./pages/Login";
+import NotFound from "./pages/shared/NotFound";
+import UserJobTable from "./components/job/UserJobTable";
 
 
 
@@ -34,7 +35,7 @@ function App() {
   }
   return (
     <div className='app'>
-      {/* <>{onHomeScreen ? <HeaderHome /> : onClassScreen && <HeaderClass />}  </> */}
+
       <Routes>
         <Route path='/auth' element={
           <CheckAuth
@@ -57,6 +58,12 @@ function App() {
             isAuthenticated={isAuthenticated}
           ><Profile /></CheckAuth>
         }></Route>
+        {/* //to get the applied jobs by student */}
+        <Route path='/jobs' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><UserJobTable /></CheckAuth>
+        }></Route>
 
 
 
@@ -68,7 +75,7 @@ function App() {
 
 
         {/* <Route path='/' element={<Navigate to={'/home'} />} /> */}
-        {/* <Route path='*' element={<NotFound />} /> */}
+        <Route path='*' element={<NotFound/>} />
       </Routes>
 
       <ToastContainer />
