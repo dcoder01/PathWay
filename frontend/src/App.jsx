@@ -13,6 +13,7 @@ import { checkAuth } from "./store/authSlice";
 import { useEffect } from "react";
 import NotFound from "./pages/shared/NotFound";
 import UserJobTable from "./components/job/UserJobTable";
+import Jobs from "./pages/jobs/Jobs";
 
 
 
@@ -59,10 +60,17 @@ function App() {
           ><Profile /></CheckAuth>
         }></Route>
         {/* //to get the applied jobs by student */}
-        <Route path='/jobs' element={
+        <Route path='/applied-jobs' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><UserJobTable /></CheckAuth>
+        }></Route>
+
+        {/* jobs */}
+        <Route path='/jobs' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><Jobs/></CheckAuth>
         }></Route>
 
 

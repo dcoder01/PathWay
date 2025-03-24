@@ -18,7 +18,7 @@ const statusColors = {
 const UserJobTable = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const { appliedJobs, isLoading } = useSelector((state) => state.jobSlice);
+    const { appliedJobsUser, isLoading } = useSelector((state) => state.jobSlice);
     const { user } = useSelector((state) => state.authSlice)
 
     useEffect(() => {
@@ -53,14 +53,14 @@ const UserJobTable = () => {
                                     isLoading...
                                 </TableCell>
                             </TableRow>
-                        ) : appliedJobs.length === 0 ? (
+                        ) : appliedJobsUser.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={4} className="text-center py-4">
                                     You haven't applied to any jobs yet.
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            appliedJobs.map((appliedJob) => (
+                            appliedJobsUser.map((appliedJob) => (
                                 <TableRow key={appliedJob._id}>
                                     <TableCell>{appliedJob?.createdAt?.split("T")[0]}</TableCell>
                                     <TableCell>{appliedJob.job?.title}</TableCell>
