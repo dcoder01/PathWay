@@ -7,7 +7,7 @@ const { applyJob, fetchAppliedJobs, fetchApplicants, updateStatus } = require('.
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post('/apply/:jobId', isAuthenticatedUser, authorizedRoles('student'), upload.single('file'), applyJob);
-router.get('/fetch', isAuthenticatedUser, fetchAppliedJobs);
+router.get('/fetch', isAuthenticatedUser,authorizedRoles('student'), fetchAppliedJobs);
 router.get('/fetch/:jobId', isAuthenticatedUser,authorizedRoles("recruiter", "coordinator"), fetchApplicants);
 router.get('/updatestatus/:applicationId', isAuthenticatedUser,authorizedRoles("recruiter", "coordinator"), updateStatus);
 
