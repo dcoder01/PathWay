@@ -61,7 +61,15 @@ exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
 
 exports.fetchJobById = catchAsyncError(async (req, res, next) => {
     const jobId = req.params.jobId;
-    const job = await jobModel.findById(jobId).populate("applications").populate("company");
+    const job = await jobModel.findById(jobId).populate("applications").populate("company")
+    .populate({
+        path:"createdBy",
+        select:"name"
+    })
+    .populate({
+        path:"recruiter",
+        select:"name"
+    })
     if (!job) {
         return next(new ErrorHandler("No job found", 404))
     };
