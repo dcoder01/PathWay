@@ -10,7 +10,12 @@ import {
     IndianRupee,
     Briefcase,
     Users,
-    ArrowRight
+    ArrowRight,
+    Clock,
+    UserRoundCog,
+    Pin,
+    Monitor
+
 } from 'lucide-react'
 import Header from '@/components/shared/Header'
 
@@ -108,6 +113,26 @@ const JobDetails = () => {
                             icon={IndianRupee}
                             title="Salary"
                             content={singleJob?.salary || "Not specified"}
+                        />
+                        <JobDetailCard
+                            icon={Clock}
+                            title="Deadline"
+                            content={singleJob?.deadline ? new Date(singleJob.deadline).toLocaleDateString() : "N/A"}
+                        />
+                        <JobDetailCard
+                            icon={Monitor}
+                            title="Requirements"
+                            content={singleJob?.requirements ? singleJob?.requirements.join(", ") : "Not specified"} 
+                        />
+                        <JobDetailCard
+                            icon={UserRoundCog}
+                            title="Coordinator"
+                            content={singleJob?.createdBy.name || "Not specified"}
+                        />
+                        <JobDetailCard
+                            icon={Pin}
+                            title="Recruiter"
+                            content={singleJob?.recruiter.name || "Not specified"}
                         />
                     </div>
 
