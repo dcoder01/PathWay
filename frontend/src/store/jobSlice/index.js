@@ -17,12 +17,12 @@ export const fetchAppliedJobs = createAsyncThunk('application/fetch/user', async
     }
 });
 
-
+//fetch all jobs
 export const fetchAllJobs = createAsyncThunk('application/fetch/allJobs', async (_, thunkAPI) => {
- 
+
     // const {searchQuery} = useSelector(store=>store.jobSlice);
     // console.log('asdjk');
-    
+
 
     try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/job/fetch`, { withCredentials: true });
@@ -31,6 +31,21 @@ export const fetchAllJobs = createAsyncThunk('application/fetch/allJobs', async 
         return response.data;
     } catch (error) {
 
+
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "fetching failed");
+    }
+});
+
+//fetchsingle job
+export const fetchSingleJob = createAsyncThunk('application/fetch/single', async (jobId, thunkAPI) => {
+    // console.log('asdjk');
+
+
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/job/fetch/${jobId}`, { withCredentials: true });
+
+        return response.data;
+    } catch (error) {
 
         return thunkAPI.rejectWithValue(error.response?.data?.message || "fetching failed");
     }
@@ -45,7 +60,8 @@ const jobSlice = createSlice({
         appliedJobsUser: [],
         error: null,
         searchQuery: "",
-        allJobs:[],
+        allJobs: [],
+        singleJob: null,
     },
 
     reducers: {
@@ -70,13 +86,25 @@ const jobSlice = createSlice({
             })
             .addCase(fetchAllJobs.pending, (state, action) => {
                 state.isLoading = true;
-             
+
             })
             .addCase(fetchAllJobs.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.allJobs=action.payload.jobs;
+                state.allJobs = action.payload.jobs;
             })
             .addCase(fetchAllJobs.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchSingleJob.pending, (state, action) => {
+                state.isLoading = true;
+
+            })
+            .addCase(fetchSingleJob.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.singleJob = action.payload.job;
+            })
+            .addCase(fetchSingleJob.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })

@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import NotFound from "./pages/shared/NotFound";
 import UserJobTable from "./components/job/UserJobTable";
 import Jobs from "./pages/jobs/Jobs";
+import JobDetails from "./pages/jobs/JobDetails";
 
 
 
@@ -71,6 +72,14 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><Jobs/></CheckAuth>
+        }></Route>
+
+        {/* details */}
+
+        <Route path='/description/:jobId' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><JobDetails/></CheckAuth>
         }></Route>
 
 
