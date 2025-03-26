@@ -46,8 +46,8 @@ const Job = ({ job }) => {
             </div>
 
             <div className="flex items-center gap-3 mt-4">
-                <Button className='cursor-pointer' onClick={() => navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
-                <Button onClick={() => navigate(`/apply/${job?._id}`)} className='cursor-pointer' >Apply</Button>
+                <Button className='w-full cursor-pointer' onClick={() => navigate(`/description/${job?._id}`)} >Details</Button>
+               
             </div>
         </div>
     );
