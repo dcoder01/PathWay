@@ -30,9 +30,15 @@ const JobDetails = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        dispatch(fetchSingleJob(jobId))
-        setIsApplied(singleJob?.applications?.some(application => application.applicant === user?._id))
-    }, [jobId, dispatch, user?._id])
+        dispatch(fetchSingleJob(jobId));
+    }, [jobId, dispatch]);
+    
+    useEffect(() => {
+        if (singleJob && user) {
+            setIsApplied(singleJob?.applications?.some(application => application.student === user?._id));
+        }
+    }, [singleJob, user]);
+    
 
     const JobDetailCard = ({ icon: Icon, title, content }) => (
         <div className="bg-gray-50 p-4 rounded-lg flex items-start space-x-4">
