@@ -34,7 +34,6 @@ const Header = () => {
                     <nav className="hidden md:flex items-center gap-8">
                         <ul className="flex font-medium items-center gap-6">
                             
-  
                             {user && user.role === "student" && (
                                 <>
                                     <li><Link to="/jobs" >Jobs</Link></li>
@@ -53,7 +52,8 @@ const Header = () => {
 
                             {user && user.role === "tpo" && (
                                 <>
-                                    <li><Link to="/companies">Jobs</Link></li>
+                                    <li><Link to="/jobs">Jobs</Link></li>
+                                    <li><Link to="/all-companies">All Companies</Link></li>
                                     <li><Link to="/users">Users</Link></li>
                                     <li><Link to="/dashboard">Dashboard</Link></li>
                                 </>
@@ -63,7 +63,7 @@ const Header = () => {
                                 <>
                                     <li><Link to="/my-jobs">My Jobs</Link></li>
                             
-                                    <li><Link to="/companies">Applications</Link></li>
+                                    <li><Link to="/my-companies">My Companies</Link></li>
                                     <li><Link to="/register-company">Register Comapny</Link></li>
                                 </>
                             )}
@@ -131,6 +131,7 @@ const Header = () => {
                         {user && user.role === "tpo" && (
                             <>
                                 <li><Link to="/jobs" onClick={() => setIsNavOpen(false)}>Jobs</Link></li>
+                                <li><Link to="/all-companies" onClick={() => setIsNavOpen(false)}>All Companies</Link></li>
                                 <li><Link to="/dashboard" onClick={() => setIsNavOpen(false)}>Dashboard</Link></li>
                                 <li><Link to="/users" onClick={() => setIsNavOpen(false)}>Users</Link></li>
                             </>
@@ -139,7 +140,7 @@ const Header = () => {
                         {user && user.role === "recruiter" && (
                             <>
                                 <li><Link to="/my-jobs" onClick={() => setIsNavOpen(false)}>My Jobs</Link></li>
-                                <li><Link to="/compnaies" onClick={() => setIsNavOpen(false)}>Companies</Link></li>
+                                <li><Link to="/my-compnaies" onClick={() => setIsNavOpen(false)}>My Companies</Link></li>
                                 <li><Link to="/register-company" onClick={() => setIsNavOpen(false)}>Register Company</Link></li>
                             </>
                         )}

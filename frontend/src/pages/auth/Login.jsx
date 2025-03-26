@@ -33,7 +33,7 @@ const Login = () => {
 
             if (data?.payload?.success) {
                 toast.success("Logged in successfully");
-                navigate('/home')
+                navigate('/')
             } else {
                 toast.error(data?.payload || "SLogin failed! Try again.");
             }

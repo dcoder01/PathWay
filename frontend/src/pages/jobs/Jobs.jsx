@@ -7,12 +7,22 @@ import FilterCard from '@/components/job/FilterCard';
 import { fetchAllJobs } from '@/store/jobSlice';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Jobs = () => {
     const dispatch = useDispatch();
     const { allJobs, searchQuery, isLoading } = useSelector(store => store.jobSlice);
     const [filterJobs, setFilterJobs] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
+    const {user}=useSelector((state)=>state.authSlice)
+    const navigate=useNavigate()
+    useEffect(()=>{
+        if(user && user.role==='recruiter'){
+            toast.error("Not allowed")
+            navigate('/')
+        }
+    },[user, navigate])
 
     useEffect(() => {
         dispatch(fetchAllJobs());

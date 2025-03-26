@@ -32,13 +32,13 @@ const JobDetails = () => {
     useEffect(() => {
         dispatch(fetchSingleJob(jobId));
     }, [jobId, dispatch]);
-    
+
     useEffect(() => {
         if (singleJob && user) {
             setIsApplied(singleJob?.applications?.some(application => application.student === user?._id));
         }
     }, [singleJob, user]);
-    
+
 
     const JobDetailCard = ({ icon: Icon, title, content }) => (
         <div className="bg-gray-50 p-4 rounded-lg flex items-start space-x-4">
@@ -85,17 +85,19 @@ const JobDetails = () => {
                                 </Badge>
                             </div>
                         </div>
-                        <Button
-                            onClick={isApplied ? null : () => navigate(`/apply/${jobId}`)}
-                            disabled={isApplied}
-                            className={`cursor-pointer mt-4 md:mt-0 w-full md:w-auto flex items-center justify-center ${isApplied
-                                ? 'bg-gray-500 hover:bg-gray-600'
-                                : 'bg-black hover:bg-gray-500'
-                                }`}
-                        >
-                            {isApplied ? 'Already Applied' : 'Apply Now'}
-                            {!isApplied && <ArrowRight className="ml-2 h-4 w-4" />}
-                        </Button>
+                        {user && user.role !== 'tpo' && (
+                            <Button
+                                onClick={isApplied ? null : () => navigate(`/apply/${jobId}`)}
+                                disabled={isApplied}
+                                className={`cursor-pointer mt-4 md:mt-0 w-full md:w-auto flex items-center justify-center ${isApplied
+                                    ? 'bg-gray-500 hover:bg-gray-600'
+                                    : 'bg-black hover:bg-gray-500'
+                                    }`}
+                            >
+                                {isApplied ? 'Already Applied' : 'Apply Now'}
+                                {!isApplied && <ArrowRight className="ml-2 h-4 w-4" />}
+                            </Button>
+                        )}
                     </div>
 
 
@@ -128,7 +130,7 @@ const JobDetails = () => {
                         <JobDetailCard
                             icon={Monitor}
                             title="Requirements"
-                            content={singleJob?.requirements ? singleJob?.requirements.join(", ") : "Not specified"} 
+                            content={singleJob?.requirements ? singleJob?.requirements.join(", ") : "Not specified"}
                         />
                         <JobDetailCard
                             icon={UserRoundCog}

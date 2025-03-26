@@ -46,7 +46,7 @@ function App() {
 
           ><AuthLayout /></CheckAuth>
         }>
-          <Route path="Login" element={<Login/>} />
+          <Route path="Login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
 
@@ -66,7 +66,7 @@ function App() {
         <Route path='/jobs' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
-          ><Jobs/></CheckAuth>
+          ><Jobs /></CheckAuth>
         }></Route>
 
         {/* details */}
@@ -74,14 +74,14 @@ function App() {
         <Route path='/description/:jobId' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
-          ><JobDetails/></CheckAuth>
+          ><JobDetails /></CheckAuth>
         }></Route>
 
         {/* apply job */}
         <Route path='/apply/:jobId' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
-          ><ApplyJob/></CheckAuth>
+          ><ApplyJob /></CheckAuth>
         }></Route>
 
 
@@ -93,8 +93,8 @@ function App() {
 
 
 
-        <Route path='/' element={<Navigate to={'/jobs'} />} />
-        <Route path='*' element={<NotFound/>} />
+        <Route path='/' element={<Navigate to={user?.role === 'recruiter' ? "/my-jobs" : '/jobs'} />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
 
       <ToastContainer />
