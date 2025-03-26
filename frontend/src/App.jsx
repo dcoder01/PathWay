@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "./components/ui/button"
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import CheckAuth from "./components/auth/checkAuth";
 import AuthLayout from "./components/auth/AuthLayout";
 import Register from "./pages/auth/Register";
@@ -49,12 +49,6 @@ function App() {
           <Route path="Login" element={<Login/>} />
           <Route path="register" element={<Register />} />
         </Route>
-        <Route path='/home' element={
-          <CheckAuth
-            isAuthenticated={isAuthenticated}
-            user={user}
-          ><Home /></CheckAuth>
-        }></Route>
 
         <Route path='/profile' element={
           <CheckAuth
@@ -99,7 +93,7 @@ function App() {
 
 
 
-        {/* <Route path='/' element={<Navigate to={'/home'} />} /> */}
+        <Route path='/' element={<Navigate to={'/jobs'} />} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
 

@@ -33,8 +33,7 @@ const Header = () => {
 
                     <nav className="hidden md:flex items-center gap-8">
                         <ul className="flex font-medium items-center gap-6">
-                            <li><Link to="/" className="hover:text-gray-600">Home</Link></li>
-
+                            
   
                             {user && user.role === "student" && (
                                 <>
