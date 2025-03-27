@@ -17,6 +17,10 @@ exports.fetchAllSchedules = catchAsyncError(async (req, res, next) => {
         path: 'schedules',
         populate: {
             path: 'job',
+            populate:{
+                path:"company",
+                select:"name"
+            },
             select:"title company"
         }
     });
