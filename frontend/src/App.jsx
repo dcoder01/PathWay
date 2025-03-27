@@ -16,6 +16,8 @@ import UserJobTable from "./components/job/UserJobTable";
 import Jobs from "./pages/jobs/Jobs";
 import JobDetails from "./pages/jobs/JobDetails";
 import ApplyJob from "./components/job/ApplyJob";
+import StudentSchedule from "./pages/schedules/StudentSchedule";
+
 
 
 
@@ -82,6 +84,14 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><ApplyJob /></CheckAuth>
+        }></Route>
+
+        {/* fetch schedules for student */}
+
+        <Route path='/schedule' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><StudentSchedule /></CheckAuth>
         }></Route>
 
 
