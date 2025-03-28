@@ -6,6 +6,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors')
 const sendToken = require('../utils/jwtToken')
 
 
+
 exports.pendingRequests = catchAsyncError(async (req, res, next) => {
     const pendingUsers = await User.find({
         isApproved: false,
@@ -52,6 +53,18 @@ exports.deleteRequests = catchAsyncError(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
+    })
+})
+
+//get all users tpo
+
+exports.getAllUsers = catchAsyncError(async (req, res, next) => {
+
+    const users = await User.find();
+    
+    return res.status(200).json({
+        success: true,
+        users,
     })
 })
 
