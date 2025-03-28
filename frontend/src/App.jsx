@@ -17,6 +17,7 @@ import Jobs from "./pages/jobs/Jobs";
 import JobDetails from "./pages/jobs/JobDetails";
 import ApplyJob from "./components/job/ApplyJob";
 import StudentSchedule from "./pages/schedules/StudentSchedule";
+import AllUsers from "./pages/tpo/AllUsers";
 
 
 
@@ -94,7 +95,13 @@ function App() {
           ><StudentSchedule /></CheckAuth>
         }></Route>
 
+        {/* tpo fetch users */}
 
+        <Route path='/users' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><AllUsers /></CheckAuth>
+        }></Route>
 
 
 

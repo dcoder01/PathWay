@@ -91,6 +91,19 @@ export const updateProfile = createAsyncThunk('/profile/update', async (formData
   }
 });
 
+//get all users TPO
+export const getAllUsers = createAsyncThunk('/users/get', async (_, thunkAPI) => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/tpo/users`, { withCredentials: true });
+
+    return response.data;
+  } catch (error) {
+
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Update Failed");
+  }
+});
+
 
 // Auth Slice
 const authSlice = createSlice({
@@ -100,6 +113,7 @@ const authSlice = createSlice({
     isLoading: true,
     user: null,
     error: null,
+    allUsers:[],
   },
   reducers: {
     setUser: (state, action) => {
@@ -175,7 +189,7 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
       });
-
+      //update
     builder
       .addCase(updateProfile.pending, (state) => {
         state.isLoading = true;
@@ -186,6 +200,20 @@ const authSlice = createSlice({
         
       })
       .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+      //tpo users
+    builder
+      .addCase(getAllUsers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.allUsers =  action.payload.users;
+        
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
