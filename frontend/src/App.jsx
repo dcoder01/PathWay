@@ -18,6 +18,7 @@ import JobDetails from "./pages/jobs/JobDetails";
 import ApplyJob from "./components/job/ApplyJob";
 import StudentSchedule from "./pages/schedules/StudentSchedule";
 import AllUsers from "./pages/tpo/AllUsers";
+import AllCompanies from "./pages/companies/AllCompanies";
 
 
 
@@ -101,6 +102,14 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><AllUsers /></CheckAuth>
+        }></Route>
+
+        {/* all companies */}
+
+        <Route path='/all-companies' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><AllCompanies /></CheckAuth>
         }></Route>
 
 
