@@ -16,7 +16,7 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 });
 
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
- 
+
 
   try {
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/user/register`, userData, {
@@ -81,7 +81,7 @@ export const checkAuth = createAsyncThunk('/auth/checkAuth', async () => {
 //update profile
 export const updateProfile = createAsyncThunk('/profile/update', async (formData, thunkAPI) => {
   try {
-    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/user/update-profile`, {profile:formData}, { withCredentials: true });
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/user/update-profile`, { profile: formData }, { withCredentials: true });
 
     return response.data;
   } catch (error) {
@@ -104,6 +104,48 @@ export const getAllUsers = createAsyncThunk('/users/get', async (_, thunkAPI) =>
   }
 });
 
+//pending approvals
+export const fetchPendingApprovals = createAsyncThunk('/approval/pending', async (_, thunkAPI) => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/tpo/pending-approvals`, { withCredentials: true });
+
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch pending approvals");
+  }
+});
+
+// approve  users tpo
+export const acceptApproval = createAsyncThunk('/approval/accept', async (userId, thunkAPI) => {
+
+
+  try {
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/tpo/accept-approval/${userId}`, {}, { withCredentials: true });
+
+    return response.data;
+
+  } catch (error) {
+
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to accept");
+  }
+});
+
+//delete approvals
+export const deleteApproval = createAsyncThunk('/approval/delete', async (userId, thunkAPI) => {
+  // console.log(userId);
+
+  try {
+    const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/tpo/reject-approval/${userId}`, { withCredentials: true });
+
+    return userId;;
+  } catch (error) {
+
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Deletion Failed");
+  }
+});
+
 
 // Auth Slice
 const authSlice = createSlice({
@@ -113,7 +155,11 @@ const authSlice = createSlice({
     isLoading: true,
     user: null,
     error: null,
-    allUsers:[],
+    allUsers: [],
+    approvalLoading: false,
+    approvalError: null,
+    pendingApprovals: [],
+
   },
   reducers: {
     setUser: (state, action) => {
@@ -189,7 +235,7 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
       });
-      //update
+    //update
     builder
       .addCase(updateProfile.pending, (state) => {
         state.isLoading = true;
@@ -197,26 +243,72 @@ const authSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
-        
+
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
-      //tpo users
+    //tpo users
     builder
       .addCase(getAllUsers.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.allUsers =  action.payload.users;
-        
+        state.allUsers = action.payload.users;
+
       })
       .addCase(getAllUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
+    //fetch pending approvals
+    builder
+      .addCase(fetchPendingApprovals.pending, (state) => {
+        state.approvalLoading = true;
+      })
+      .addCase(fetchPendingApprovals.fulfilled, (state, action) => {
+        state.approvalLoading = false;
+        state.pendingApprovals = action.payload.data.pendingUsers;
+
+      })
+      .addCase(fetchPendingApprovals.rejected, (state, action) => {
+        state.approvalLoading = false;
+        state.approvalError = action.payload;
+      })
+    //delete users
+    builder
+      .addCase(deleteApproval.pending, (state) => {
+        state.approvalLoading = true;
+      })
+      .addCase(deleteApproval.fulfilled, (state, action) => {
+        state.approvalLoading = false;
+        state.pendingApprovals=state.pendingApprovals.filter(
+          (user)=>user._id !== action.payload
+        )
+
+      })
+      .addCase(deleteApproval.rejected, (state, action) => {
+        state.approvalLoading = false;
+        state.approvalError = action.payload;
+      })
+    //accept
+    builder
+      .addCase(acceptApproval.pending, (state) => {
+        state.approvalLoading = true;
+      })
+      .addCase(acceptApproval.fulfilled, (state, action) => {
+        state.approvalLoading = false;
+        state.pendingApprovals = state.pendingApprovals.filter(
+          (user) => user._id !== action.payload.user._id
+        );
+
+      })
+      .addCase(acceptApproval.rejected, (state, action) => {
+        state.approvalLoading = false;
+        state.approvalError = action.payload;
+      })
   },
 });
 

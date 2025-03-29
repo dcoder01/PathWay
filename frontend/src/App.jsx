@@ -19,6 +19,7 @@ import ApplyJob from "./components/job/ApplyJob";
 import StudentSchedule from "./pages/schedules/StudentSchedule";
 import AllUsers from "./pages/tpo/AllUsers";
 import AllCompanies from "./pages/tpo/AllCompanies";
+import Dashboard from "./pages/tpo/Dashboard";
 
 
 
@@ -110,6 +111,13 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><AllCompanies /></CheckAuth>
+        }></Route>
+
+        {/* accept/reject users tpo and recruiters */}
+        <Route path='/dashboard' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><Dashboard /></CheckAuth>
         }></Route>
 
 
