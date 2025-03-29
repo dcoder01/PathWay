@@ -18,7 +18,7 @@ import JobDetails from "./pages/jobs/JobDetails";
 import ApplyJob from "./components/job/ApplyJob";
 import StudentSchedule from "./pages/schedules/StudentSchedule";
 import AllUsers from "./pages/tpo/AllUsers";
-import AllCompanies from "./pages/companies/AllCompanies";
+import AllCompanies from "./pages/tpo/AllCompanies";
 
 
 
