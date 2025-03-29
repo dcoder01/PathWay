@@ -45,7 +45,7 @@ const Header = () => {
 
                             {user && user.role === "coordinator" && (
                                 <>
-                                    <li><Link to="/jobs">Jobs</Link>Jobs</li>
+                                    <li><Link to="/jobs">Jobs</Link></li>
                                     <li><Link to="/create-job">Create Job</Link></li>
                                 </>
                             )}
@@ -87,7 +87,7 @@ const Header = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col mt-3 text-gray-600">
-                                        {user.role === "student" && (
+                                        {user.role === "student" || user.role==='coordinator'  && (
                                             <div className="flex items-center gap-2 cursor-pointer">
                                                 <Eye />
                                                 <Button variant="link"><Link to="/profile" className="cursor-pointer" >View Profile</Link></Button>
