@@ -6,7 +6,7 @@ const multer = require("multer");
 const { fetchAllSchedules, createSchedule, updateSchedule, deleteSchedule, fetchSchedules } = require('../controllers/scheduleController');
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.get('/fetch', isAuthenticatedUser, authorizedRoles('student'),  fetchAllSchedules);
+router.get('/fetch', isAuthenticatedUser, authorizedRoles('student','coordinator'),  fetchAllSchedules);
 router.post('/create/:jobId/:userId', isAuthenticatedUser, authorizedRoles('recruiter', 'coordinator'),  createSchedule);
 router.put('/update/:scheduleId', isAuthenticatedUser, authorizedRoles('recruiter', 'coordinator'),  updateSchedule);
 router.delete('/delete/:scheduleId', isAuthenticatedUser, authorizedRoles('recruiter', 'coordinator'),  deleteSchedule);

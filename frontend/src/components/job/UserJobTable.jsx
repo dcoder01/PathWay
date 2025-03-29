@@ -22,9 +22,8 @@ const UserJobTable = () => {
     const { user } = useSelector((state) => state.authSlice)
 
     useEffect(() => {
-        if (user && user.role !== 'student') {
-            navigate('/home')
-
+        if (user && user.role !== 'student' && user.role !== 'coordinator') {
+            navigate('/')
         }
     }, [])
 
