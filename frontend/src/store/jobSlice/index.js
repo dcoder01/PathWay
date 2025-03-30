@@ -79,6 +79,20 @@ export const createJob = createAsyncThunk('job/create', async ( formData, thunkA
     }
 });
 
+//fetch jobs coordinator
+
+export const fetchCoordinatorJobs = createAsyncThunk('job/coordinator', async (_, thunkAPI) => {
+    // console.log('asdjk');
+    
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/job/fetchJobs`, { withCredentials: true});
+
+        return response.data;
+    } catch (error) {
+
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch");
+    }
+});
 
 // Auth Slice
 const jobSlice = createSlice({
@@ -90,6 +104,7 @@ const jobSlice = createSlice({
         searchQuery: "",
         allJobs: [],
         singleJob: null,
+        coordinatorJobs:[],
     },
 
     reducers: {
@@ -157,6 +172,19 @@ const jobSlice = createSlice({
             
             })
             .addCase(createJob.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchCoordinatorJobs.pending, (state, action) => {
+                state.isLoading = true;
+
+            })
+            .addCase(fetchCoordinatorJobs.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.coordinatorJobs=action.payload.jobs
+            
+            })
+            .addCase(fetchCoordinatorJobs.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })

@@ -21,6 +21,7 @@ import AllUsers from "./pages/tpo/AllUsers";
 import AllCompanies from "./pages/tpo/AllCompanies";
 import Dashboard from "./pages/tpo/Dashboard";
 import JobCreation from "./pages/jobs/JobCreation";
+import JobsCreated from "./pages/jobs/JobsCreated";
 
 
 
@@ -133,6 +134,14 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><JobCreation /></CheckAuth>
+        }></Route>
+
+        {/* jobs created */}
+
+        <Route path='/jobs-created' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><JobsCreated /></CheckAuth>
         }></Route>
 
 
