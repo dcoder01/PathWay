@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Navbar from '../shared/Header';
+import Navbar from '../../components/shared/Header';
 import { Avatar, AvatarImage } from '../../components/ui/avatar';
 import { Button } from '../../components/ui/button';
 import { Label } from '../../components/ui/label';
 import { useSelector } from 'react-redux';
 import { Contact, Mail, Pen } from 'lucide-react';
-import UpdateProfileModal from './UpdateProfileModal';
+import UpdateProfileModal from '../../components/auth/UpdateProfileModal';
 
 const Profile = () => {
     const [open, setOpen] = useState(false);

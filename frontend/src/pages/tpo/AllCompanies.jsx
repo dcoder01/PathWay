@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input } from '../../components/ui/input'
 import { useNavigate } from 'react-router-dom'
 import Header from '@/components/shared/Header'
-import CompaniesTable from '@/components/companies/CompaniesTable'
+import CompaniesTable from '@/pages/companies/CompaniesTable'
 import { Search } from 'lucide-react'
 
 

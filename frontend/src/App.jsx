@@ -7,21 +7,23 @@ import Register from "./pages/auth/Register";
 import { ToastContainer } from "react-toastify";
 import Login from "./pages/auth/Login";
 import Home from "./components/shared/Home";
-import Profile from "./components/auth/Profile";
+import Profile from "./pages/users/Profile";
 import { Loader } from "lucide-react";
 import { checkAuth } from "./store/authSlice";
 import { useEffect } from "react";
 import NotFound from "./pages/shared/NotFound";
-import UserJobTable from "./components/job/UserJobTable";
+import UserJobTable from "./pages/jobs/UserJobTable";
 import Jobs from "./pages/jobs/Jobs";
 import JobDetails from "./pages/jobs/JobDetails";
-import ApplyJob from "./components/job/ApplyJob";
+import ApplyJob from "./pages/jobs/ApplyJob";
 import StudentSchedule from "./pages/schedules/StudentSchedule";
 import AllUsers from "./pages/tpo/AllUsers";
 import AllCompanies from "./pages/tpo/AllCompanies";
 import Dashboard from "./pages/tpo/Dashboard";
 import JobCreation from "./pages/jobs/JobCreation";
 import JobsCreated from "./pages/jobs/JobsCreated";
+import SchedulesForJob from "./pages/schedules/SchedulesForJob";
+import AllApplicants from "./pages/users/AllApplicants";
 
 
 
@@ -143,6 +145,20 @@ function App() {
             isAuthenticated={isAuthenticated}
           ><JobsCreated /></CheckAuth>
         }></Route>
+
+        {/* fetch schedules */}
+        <Route path='/fetch-schedules/:jobId' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><SchedulesForJob /></CheckAuth>
+        }></Route>
+        <Route path='/job-applicants/:jobId' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><AllApplicants /></CheckAuth>
+        }></Route>
+
+
 
 
 

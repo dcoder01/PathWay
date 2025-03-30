@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
-import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '../../components/ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
 import { Edit2, MoreHorizontal, Building, Calendar, Search, AlertCircle } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';

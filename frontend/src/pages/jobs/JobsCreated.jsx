@@ -26,7 +26,7 @@ const CoordinatorJobListing = () => {
     };
 
     const handleViewSchedule = (jobId) => {
-        navigate(`/fetch-schedule/${jobId}`);
+        navigate(`/fetch-schedules/${jobId}`);
     };
 
     const handleViewApplicants = (jobId) => {

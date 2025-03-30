@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Badge } from '../ui/badge';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import { Badge } from '../../components/ui/badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAppliedJobs } from '@/store/jobSlice/index.js';
-import Header from '../shared/Header';
+import Header from '../../components/shared/Header';
 import { useNavigate } from 'react-router-dom';
 
 
