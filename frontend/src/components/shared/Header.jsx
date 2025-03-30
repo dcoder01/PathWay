@@ -45,11 +45,11 @@ const Header = () => {
 
                             {user && user.role === "coordinator" && (
                                 <>
-                                    <li><Link to="/create-job">Create Job</Link></li>
+                                    <li><Link to="/coordinator">Coordinator</Link></li>
                                     <li><Link to="/jobs">Jobs</Link></li>
                                     <li><Link to="/applied-jobs">Applications</Link></li>
                                     <li><Link to="/schedule">Schedules</Link></li>
-                                    <li><Link to='/chat'>Chat</Link></li>
+                                 
                                 </>
                             )}
 
@@ -126,11 +126,11 @@ const Header = () => {
 
                         {user && user.role === "coordinator" && (
                             <>
-                                <li><Link to="/create-job" onClick={() => setIsNavOpen(false)}>Create Job</Link></li>
+                                <li><Link to="/coordinator" onClick={() => setIsNavOpen(false)}>Coordinator</Link></li>
                                 <li><Link to="/jobs" onClick={() => setIsNavOpen(false)}>Jobs</Link></li>
                                 <li><Link to="/applied-jobs" onClick={() => setIsNavOpen(false)}>Applications</Link></li>
                                 <li><Link to="/schedule" onClick={() => setIsNavOpen(false)}>Schedules</Link></li>
-                                <li><Link to="/chat" onClick={() => setIsNavOpen(false)}>Chat</Link></li>
+                                
                             </>
                         )}
 
