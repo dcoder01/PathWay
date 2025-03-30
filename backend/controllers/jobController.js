@@ -17,9 +17,9 @@ exports.registerJob = catchAsyncError(async (req, res, next) => {
     const job = await jobModel.create({
         title,
         description,
-        requirements: requirements.split(","),
+        requirements,
         salary,
-        location: location.split(","),
+        location,
         jobType,
         deadline: new Date(deadline),
         position,
