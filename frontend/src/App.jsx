@@ -120,6 +120,13 @@ function App() {
           ><Dashboard /></CheckAuth>
         }></Route>
 
+        {/* coordinator */}
+        <Route path='/coordinator' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><Home /></CheckAuth>
+        }></Route>
+
 
 
 
