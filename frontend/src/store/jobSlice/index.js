@@ -65,6 +65,19 @@ export const applyJob = createAsyncThunk('application/apply/job', async ({jobId,
         return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to Apply");
     }
 });
+//create job
+export const createJob = createAsyncThunk('job/create', async ( formData, thunkAPI) => {
+    // console.log('asdjk');
+    
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/job/register`, formData,{ withCredentials: true});
+
+        return response.data;
+    } catch (error) {
+
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to Apply");
+    }
+});
 
 
 // Auth Slice
@@ -132,6 +145,18 @@ const jobSlice = createSlice({
             
             })
             .addCase(applyJob.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(createJob.pending, (state, action) => {
+                state.isLoading = true;
+
+            })
+            .addCase(createJob.fulfilled, (state, action) => {
+                state.isLoading = false;
+            
+            })
+            .addCase(createJob.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })
