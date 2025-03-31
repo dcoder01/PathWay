@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { MoreVertical, Calendar } from 'lucide-react';
+import { MoreVertical, Calendar, AlertCircle } from 'lucide-react';
 // import ScheduleInterview from './ScheduleInterview'; // Component for scheduling
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { fetchAllApplicants, updateStatus } from '@/store/jobSlice';
 import { toast } from 'react-toastify';
 import CoordinatorHeader from '@/components/shared/CoordinatorHeader';
 import ScheduleInterview from '@/components/job/ScheduleInterview';
+import SearchBar from '@/components/shared/SearchBar';
 
 const AllApplicants = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const AllApplicants = () => {
   const params = useParams()
   const { jobId } = params
   const { applicants, loading, error } = useSelector((state) => state.jobSlice);
+  const [input, setInput] = useState("");
 
 
 
@@ -28,16 +30,35 @@ const AllApplicants = () => {
       toast.error('you are not allowed')
       navigate('/')
     }
-  }, [])
+  }, [user, navigate])
   useEffect(() => {
     dispatch(fetchAllApplicants(jobId));
   }, [dispatch, jobId]);
 
 
-  const applications = applicants?.applications || [];
+  
+  const [applications, setApplications] = useState([])
+
+  useEffect(() => {
+    const allApplications = applicants?.applications || [];
+    if (!input) {
+      setApplications(allApplications);
+    } else {
+      setApplications(
+        allApplications.filter((stud) =>
+          stud?.student?.profile?.fullName
+            ?.toLowerCase()
+            .includes(input.toLowerCase())
+        )
+      );
+    }
+  }, [applicants?.applications, input]);
+
+
+
+
 
   //status update
-
   const handleStatusUpdate = (applicationId, newStatus) => {
     dispatch(updateStatus({ applicationId, status: newStatus })).then((data) => {
       if (data?.payload?.success) {
@@ -69,6 +90,11 @@ const AllApplicants = () => {
     <div className='mt-18'>
       <CoordinatorHeader />
       <div className="mx-auto max-w-7xl px-4">
+        <SearchBar
+          input={input}
+          settingInput={setInput}
+          text="filter by student name"
+        />
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Job: {applicants.title}</h1>
           <div className="text-sm text-gray-500">
@@ -78,7 +104,10 @@ const AllApplicants = () => {
 
         {applications.length === 0 ? (
           <div className="text-center py-10 bg-gray-50 rounded-lg">
-            <p className="text-gray-500">No applicants yet for this position.</p>
+            <div className="flex items-center justify-center p-8 bg-red-50 rounded-lg border border-red-200 text-red-800">
+              <AlertCircle className="w-6 h-6 mr-2" />
+              <p>No applications found.</p>
+            </div>
           </div>
         ) : (
           <div className="bg-white shadow rounded-lg overflow-x-auto">
@@ -141,7 +170,7 @@ const AllApplicants = () => {
                     <td className=" px-6 py-4 whitespace-nowrap text-center">
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="ghost"  className="cursor-pointer" size="sm">
+                          <Button variant="ghost" className="cursor-pointer" size="sm">
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </PopoverTrigger>

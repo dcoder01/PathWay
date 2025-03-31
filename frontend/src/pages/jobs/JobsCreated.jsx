@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -6,16 +6,30 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { fetchCoordinatorJobs } from '@/store/jobSlice';
 import CoordinatorHeader from '@/components/shared/CoordinatorHeader';
+import SearchBar from '@/components/shared/SearchBar';
+import { AlertCircle } from 'lucide-react';
 
 const CoordinatorJobListing = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { coordinatorJobs, loading, error } = useSelector((state) => state.jobSlice);
-
+    const [input, setInput] = useState("");
+    const [jobs, setJobs] = useState([])
     useEffect(() => {
         dispatch(fetchCoordinatorJobs());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (input) {
+            setJobs(
+                coordinatorJobs.filter(job =>
+                    job.company.name.toLowerCase().includes(input.toLowerCase())
+                )
+            );
+        } else {
+            setJobs(coordinatorJobs);
+        }
+    }, [coordinatorJobs, input]);
 
     const daysAgoFunction = (dateString) => {
         const createdDate = new Date(dateString);
@@ -40,6 +54,11 @@ const CoordinatorJobListing = () => {
         <div className='mt-16'>
             <CoordinatorHeader />
             <div className="max-w-7xl mx-auto px-4 py-8">
+                <SearchBar
+                    input={input}
+                    settingInput={setInput}
+                    text="filter by company name"
+                />
                 <div className='text-left mb-2'>
                     <h1 className="text-2xl font-bold mb-6">Jobs created by you</h1>
                     <p>Create, update & delete schedules</p>
@@ -47,8 +66,8 @@ const CoordinatorJobListing = () => {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
 
-                    {coordinatorJobs && coordinatorJobs.length > 0 ? (
-                        coordinatorJobs.map((job) => (
+                    {jobs && jobs.length > 0 ? (
+                        jobs.map((job) => (
                             <div key={job._id} className="flex flex-col h-full p-4 sm:p-5 rounded-lg shadow-lg bg-white border border-gray-200 w-full">
                                 <div className="flex items-center justify-between">
                                     <p className="text-xs sm:text-sm text-gray-500">
@@ -100,7 +119,10 @@ const CoordinatorJobListing = () => {
                         ))
                     ) : (
                         <div className="col-span-full text-center py-10">
-                            No coordinatorJobs found
+                            <div className="flex items-center justify-center p-8 bg-red-50 rounded-lg border border-red-200 text-red-800">
+                                <AlertCircle className="w-6 h-6 mr-2" />
+                                <p>No Jobs Found.</p>
+                            </div>
                         </div>
                     )}
                 </div>
