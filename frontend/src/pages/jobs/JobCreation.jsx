@@ -255,7 +255,7 @@ const JobCreation = () => {
     return (
         <div className='mt-18'>
             <CoordinatorHeader />
-            <div className="container mx-auto p-6">
+            <div className="mx-auto max-w-7xl px-4">
                 <h1 className="text-2xl font-bold mb-6">Create New Job Posting</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
