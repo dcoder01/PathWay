@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-
 // Async Thunks for login and register
 export const fetchAppliedJobs = createAsyncThunk('application/fetch/user', async (_, thunkAPI) => {
 
@@ -52,7 +51,7 @@ export const fetchSingleJob = createAsyncThunk('application/fetch/single', async
 });
 
 //applying for jjob
-export const applyJob = createAsyncThunk('application/apply/job', async ({jobId, formData}, thunkAPI) => {
+export const applyJob = createAsyncThunk('application/apply/job', async ({ formData}, thunkAPI) => {
     // console.log('asdjk');
 
     
@@ -93,6 +92,49 @@ export const fetchCoordinatorJobs = createAsyncThunk('job/coordinator', async (_
         return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch");
     }
 });
+// fetch all appliacnts
+
+export const fetchAllApplicants = createAsyncThunk('applicants/fetch', async (jobId, thunkAPI) => {
+    // console.log('asdjk');
+    
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/application/fetch/${jobId}`, { withCredentials: true});
+        // console.log(response.data);/
+        
+        return response.data;
+    } catch (error) {
+
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch");
+    }
+});
+
+//updatestus
+export const updateStatus = createAsyncThunk('applications/updateStatus', async ({jobId,applicationId, status}, thunkAPI) => {
+    // console.log('asdjk');
+    
+    try {
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/application/updatestatus/${applicationId}`,{status}, { withCredentials: true}); 
+       
+        return response.data;
+    } catch (error) {
+
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch");
+    }
+});
+
+//create schedule
+export const createSchedule = createAsyncThunk('schedule/create', async ({jobId,studentId, formData}, thunkAPI) => {
+    // console.log('asdjk');
+    
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/schedule/create/${jobId}/${studentId}`,formData, { withCredentials: true}); 
+       
+        return response.data;
+    } catch (error) {
+
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to create");
+    }
+});
 
 // Auth Slice
 const jobSlice = createSlice({
@@ -105,6 +147,7 @@ const jobSlice = createSlice({
         allJobs: [],
         singleJob: null,
         coordinatorJobs:[],
+        applicants:null,
     },
 
     reducers: {
@@ -185,6 +228,45 @@ const jobSlice = createSlice({
             
             })
             .addCase(fetchCoordinatorJobs.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchAllApplicants.pending, (state, action) => {
+                state.isLoading = true;
+
+            })
+            .addCase(fetchAllApplicants.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.applicants=action.payload.job
+            
+            })
+            .addCase(fetchAllApplicants.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateStatus.pending, (state, action) => {
+                state.isLoading = true;
+
+            })
+            .addCase(updateStatus.fulfilled, (state, action) => {
+                state.isLoading = false;
+               
+            
+            })
+            .addCase(updateStatus.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(createSchedule.pending, (state, action) => {
+                state.isLoading = true;
+
+            })
+            .addCase(createSchedule.fulfilled, (state, action) => {
+                state.isLoading = false;
+               
+            
+            })
+            .addCase(createSchedule.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })

@@ -152,6 +152,7 @@ function App() {
             isAuthenticated={isAuthenticated}
           ><SchedulesForJob /></CheckAuth>
         }></Route>
+        {/* fetch all applicants */}
         <Route path='/job-applicants/:jobId' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
