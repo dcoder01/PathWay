@@ -122,6 +122,7 @@ const EditCompany = () => {
     dispatch(updateCompany({ companyId, updateData })).then((data) => {
       if (data?.payload?.success) {
         toast.success("Updated company successfully!");
+        setIsSubmitting(false);
         navigate("/");
       } else {
         setFormErrors((prev) => ({
@@ -129,9 +130,10 @@ const EditCompany = () => {
           submit: data?.payload || 'Failed to update company. Please try again.',
         }));
         toast.error(data?.payload || "Failed to update company. Please try again.");
+        setIsSubmitting(false);
       }
     });
-    setIsSubmitting(false);
+   
 
   };
 
