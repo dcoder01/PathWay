@@ -25,12 +25,50 @@ export const createSchedule = createAsyncThunk('schedule/create', async ({ jobId
     return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to create");
   }
 });
+//update
+export const updateSchedule = createAsyncThunk('schedule/update', async ({scheduleId, formData}, thunkAPI) => {
+  // console.log('asdjk');
+
+  try {
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/schedule/update/${scheduleId}`,formData , { withCredentials: true });
+
+    return response.data;
+  } catch (error) {
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to update");
+  }
+});
+//delete
+export const deleteSchedule = createAsyncThunk('schedule/delete', async (scheduleId, thunkAPI) => {
+
+  try {
+    const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/schedule/delete/${scheduleId}`, { withCredentials: true });
+
+    return response.data;
+  } catch (error) {
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to delete");
+  }
+});
+//fetch
+export const fetchSchedulesCoordinator = createAsyncThunk('schedule/fetchCoordinator', async (jobId, thunkAPI) => {
+
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/schedule/fetch/${jobId}`, { withCredentials: true });
+
+    return response.data;
+  } catch (error) {
+
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch");
+  }
+});
 const scheduleSlice = createSlice({
   name: "schedule",
   initialState: {
     studentSchedules: [],
     loading: false,
     error: null,
+    coordinatorSchedules:[],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -52,10 +90,44 @@ const scheduleSlice = createSlice({
       })
       .addCase(createSchedule.fulfilled, (state, action) => {
         state.loading = false;
-
-
       })
       .addCase(createSchedule.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateSchedule.pending, (state, action) => {
+        state.loading = true;
+
+      })
+      .addCase(updateSchedule.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(updateSchedule.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteSchedule.pending, (state, action) => {
+        state.loading = true;
+
+      })
+      .addCase(deleteSchedule.fulfilled, (state, action) => {
+        state.loading = false;
+
+      })
+      .addCase(deleteSchedule.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchSchedulesCoordinator.pending, (state, action) => {
+        state.loading = true;
+
+      })
+      .addCase(fetchSchedulesCoordinator.fulfilled, (state, action) => {
+        state.loading = false;
+        state.coordinatorSchedules=action.payload.schedules
+
+      })
+      .addCase(fetchSchedulesCoordinator.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

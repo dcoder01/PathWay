@@ -160,11 +160,11 @@ function App() {
         }></Route>
 
         {/* view schedules */}
-        <Route path='/job-applicants/:jobId' element={
+        {/* <Route path='/job-applicants/:jobId' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><AllApplicants /></CheckAuth>
-        }></Route>
+        }></Route> */}
 
 
 
