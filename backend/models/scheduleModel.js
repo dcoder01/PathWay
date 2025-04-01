@@ -25,7 +25,7 @@ const ScheduleSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        enum: ['online', 'ccd', 'cse'],
+        required: true,
         default: "online",
     }
 }, { timestamps: true });
