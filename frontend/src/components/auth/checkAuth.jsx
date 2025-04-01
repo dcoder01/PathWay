@@ -5,7 +5,7 @@ function CheckAuth({ isAuthenticated, children }) {
 
     if (isAuthenticated) {
         if (location.pathname.includes("/login") || location.pathname.includes("/register")) {
-            return <Navigate to="/home" />;
+            return <Navigate to="/" />;
         }
     }
     else {

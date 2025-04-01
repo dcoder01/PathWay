@@ -26,6 +26,7 @@ import SchedulesForJob from "./pages/schedules/SchedulesForJob";
 import AllApplicants from "./pages/users/AllApplicants";
 import RecruiterCompanies from "./pages/companies/RecruiterCompanies";
 import EditCompany from "./pages/companies/EditCompany";
+import RegisterCompany from "./pages/companies/RegisterCompany";
 
 
 
@@ -176,8 +177,12 @@ function App() {
           ><EditCompany /></CheckAuth>
         }></Route>
 
-
-
+        {/* create company */}
+        <Route path='/post-company' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><RegisterCompany /></CheckAuth>
+        }></Route>
 
 
 

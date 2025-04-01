@@ -65,7 +65,7 @@ const Header = () => {
                             {user && user.role === "recruiter" && (
                                 <>
                                     <li><Link to="/my-companies">My Companies</Link></li>
-                                    <li><Link to="/register-company">Register Comapny</Link></li>
+                                    <li><Link to="/post-company">Register Comapny</Link></li>
                                 </>
                             )}
                         </ul>
@@ -145,7 +145,7 @@ const Header = () => {
                             <>
                               
                                 <li><Link to="/my-compnaies" onClick={() => setIsNavOpen(false)}>My Companies</Link></li>
-                                <li><Link to="/register-company" onClick={() => setIsNavOpen(false)}>Register Company</Link></li>
+                                <li><Link to="/post-company" onClick={() => setIsNavOpen(false)}>Register Company</Link></li>
                             </>
                         )}
 
