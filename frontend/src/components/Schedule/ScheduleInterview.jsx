@@ -97,7 +97,8 @@ const ScheduleInterview = ({ isOpen, onClose, studentId, jobId, studentName, job
                             <Input
                                 id="time"
                                 name="time"
-                                type="time"
+                                type="text"
+                                placeholder="e.g. 2:30 PM"
                                 value={formData.time}
                                 onChange={handleChange}
                                 required
