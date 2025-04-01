@@ -24,6 +24,7 @@ import JobCreation from "./pages/jobs/JobCreation";
 import JobsCreated from "./pages/jobs/JobsCreated";
 import SchedulesForJob from "./pages/schedules/SchedulesForJob";
 import AllApplicants from "./pages/users/AllApplicants";
+import RecruiterCompanies from "./pages/companies/RecruiterCompanies";
 
 
 
@@ -160,11 +161,11 @@ function App() {
         }></Route>
 
         {/* view schedules */}
-        {/* <Route path='/job-applicants/:jobId' element={
+        <Route path='/my-compnaies' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
-          ><AllApplicants /></CheckAuth>
-        }></Route> */}
+          ><RecruiterCompanies /></CheckAuth>
+        }></Route>
 
 
 
@@ -175,7 +176,7 @@ function App() {
 
 
 
-        <Route path='/' element={<Navigate to={user?.role === 'recruiter' ? "/my-jobs" : '/jobs'} />} />
+        <Route path='/' element={<Navigate to={user?.role === 'recruiter' ? "/my-compnaies" : '/jobs'} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
 

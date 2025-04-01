@@ -8,13 +8,22 @@ import { fetchCoordinatorJobs } from '@/store/jobSlice';
 import CoordinatorHeader from '@/components/shared/CoordinatorHeader';
 import SearchBar from '@/components/shared/SearchBar';
 import { AlertCircle } from 'lucide-react';
+import Header from '@/components/shared/Header';
 
 const CoordinatorJobListing = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { user } = useSelector((state) => state.authSlice)
     const { coordinatorJobs, loading, error } = useSelector((state) => state.jobSlice);
     const [input, setInput] = useState("");
     const [jobs, setJobs] = useState([])
+
+    useEffect(() => {
+        if (user && user.role !== 'coordinator' && user.role !== 'recruiter') {
+            navigate('/')
+        }
+    }, [dispatch, user])
+
     useEffect(() => {
         dispatch(fetchCoordinatorJobs());
     }, [dispatch]);
@@ -52,7 +61,12 @@ const CoordinatorJobListing = () => {
 
     return (
         <div className='mt-16'>
-            <CoordinatorHeader />
+            {
+                user && user.role !== 'recruiter' ? (
+                    <CoordinatorHeader />
+                ) :( <Header />)
+            }
+           
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <SearchBar
                     input={input}
