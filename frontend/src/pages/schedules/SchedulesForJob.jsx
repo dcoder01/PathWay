@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   CalendarIcon,
@@ -22,6 +22,16 @@ import { toast } from 'react-toastify';
 
 
 const SchedulesForJob = () => {
+  const location = useLocation();
+  const [compnayName, setCompanyName] = useState('');
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const company = query.get("company");
+    if (company) {
+      setCompanyName(company);
+    }
+  }, [location.search]);
+
   const { jobId } = useParams();
   const dispatch = useDispatch();
 
@@ -41,7 +51,7 @@ const SchedulesForJob = () => {
   const [deleteScheduleId, setDeleteScheduleId] = useState(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-//fetching the schedules
+  //fetching the schedules
   useEffect(() => {
     if (jobId) {
       dispatch(fetchSchedulesCoordinator(jobId));
@@ -56,14 +66,14 @@ const SchedulesForJob = () => {
       [name]: value
     }));
   };
-//date change
+  //date change
   const handleDateSelect = (date) => {
     setFormData(prev => ({
       ...prev,
       date
     }));
   };
-//open dialog
+  //open dialog
   const openUpdateDialog = (schedule) => {
     setSelectedSchedule(schedule);
 
@@ -75,12 +85,12 @@ const SchedulesForJob = () => {
 
     setIsUpdateDialogOpen(true);
   };
-//close dialog
+  //close dialog
   const closeUpdateDialog = () => {
     setIsUpdateDialogOpen(false);
     setSelectedSchedule(null);
   };
-//submitting update
+  //submitting update
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
 
@@ -101,7 +111,7 @@ const SchedulesForJob = () => {
   };
 
 
-//delete
+  //delete
   const handleDeleteSchedule = () => {
     if (deleteScheduleId) {
       dispatch(deleteSchedule(deleteScheduleId)).then((data) => {
@@ -120,13 +130,13 @@ const SchedulesForJob = () => {
     setDeleteScheduleId(scheduleId);
     setIsPopoverOpen(true);
   };
-//close popover
+  //close popover
   const handleCancelDelete = () => {
     setDeleteScheduleId(null);
     setIsPopoverOpen(false);
   };
 
-//filter
+  //filter
   useEffect(() => {
     if (input) {
       setSchedules(
@@ -152,9 +162,9 @@ const SchedulesForJob = () => {
         />
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">
-            Schedules for: {jobDetails?.title || 'Job'}
+            Schedules for: {compnayName ? compnayName : 'Job'}
           </h1>
-        
+
         </div>
 
         {schedules && schedules.length > 0 ? (
