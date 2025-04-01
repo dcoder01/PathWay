@@ -39,8 +39,8 @@ const CoordinatorJobListing = () => {
         return diffDays;
     };
 
-    const handleViewSchedule = (jobId) => {
-        navigate(`/fetch-schedules/${jobId}`);
+    const handleViewSchedule = (jobId, nameOfCompany) => {
+        navigate(`/fetch-schedules/${jobId}?${nameOfCompany}`);
     };
 
     const handleViewApplicants = (jobId) => {
@@ -103,7 +103,7 @@ const CoordinatorJobListing = () => {
                                 <div className="mt-4 space-y-2">
                                     <Button
                                         className="w-full cursor-pointer bg-black hover:bg-gray-800"
-                                        onClick={() => handleViewSchedule(job?._id)}
+                                        onClick={() => handleViewSchedule(job?._id, job.company.name)}
                                     >
                                         View Schedules
                                     </Button>
