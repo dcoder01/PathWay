@@ -13,6 +13,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post('/register',isAuthenticatedUser, authorizedRoles("coordinator") ,  registerJob)
 router.get('/fetch',isAuthenticatedUser, fetchAllJobs)
 router.get('/fetch/:jobId',isAuthenticatedUser, fetchJobById)
-router.get('/fetchJobs',isAuthenticatedUser, authorizedRoles("coordinator"), fetchAllJobsCoordinator)
+router.get('/fetchJobs',isAuthenticatedUser, authorizedRoles("coordinator", 'recruiter'), fetchAllJobsCoordinator)
 
 module.exports = router;
