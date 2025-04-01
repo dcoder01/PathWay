@@ -14,7 +14,8 @@ import {
     Clock,
     UserRoundCog,
     Pin,
-    Monitor
+    Monitor,
+    ExternalLink
 
 } from 'lucide-react'
 import Header from '@/components/shared/Header'
@@ -175,14 +176,20 @@ const JobDetails = () => {
                                         <MapPin className="h-4 w-4" />
                                         <span>{singleJob.company.location?.join(", ")}</span>
                                     </div>
-                                    <a
-                                        href={singleJob.company.website}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className=" hover:underline flex items-center"
-                                    >
-                                        Visit Website <ArrowRight className="ml-1 h-4 w-4" />
-                                    </a>
+
+                                    {singleJob.company.website && (
+                                        <div className="flex items-center text-blue-600 text-sm">
+                                            <ExternalLink className="h-4 w-4 mr-1" />
+                                            <a
+                                                href={singleJob.company.website.startsWith('http') ? singleJob.company.website : `https://${singleJob.company.website}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="hover:underline"
+                                            >
+                                                {singleJob.company.website}
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

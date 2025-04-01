@@ -161,7 +161,7 @@ function App() {
         }></Route>
 
         {/* view schedules */}
-        <Route path='/my-compnaies' element={
+        <Route path='/my-companies' element={
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><RecruiterCompanies /></CheckAuth>
@@ -176,7 +176,7 @@ function App() {
 
 
 
-        <Route path='/' element={<Navigate to={user?.role === 'recruiter' ? "/my-compnaies" : '/jobs'} />} />
+        <Route path='/' element={<Navigate to={user?.role === 'recruiter' ? "/my-companies" : '/jobs'} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
 

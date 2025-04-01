@@ -59,16 +59,8 @@ const RecruiterCompanies = () => {
                     settingInput={setInput}
                 />
                 <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-2xl font-bold">My Companies</h1>
-                    <Button
-                        onClick={() => navigate('/add-company')}
-                        className="cursor-pointer hover:bg-gray-600"
-                    >
-                        Add New Company
-                    </Button>
+                    <h1 className=" mt-2 text-2xl font-bold">My Companies</h1>
                 </div>
-
-
 
                 {filteredCompanies.length === 0 ? (
                     <div className="bg-gray-50 rounded-lg p-8 text-center">
