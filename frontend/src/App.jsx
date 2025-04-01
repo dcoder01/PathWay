@@ -159,6 +159,13 @@ function App() {
           ><AllApplicants /></CheckAuth>
         }></Route>
 
+        {/* view schedules */}
+        <Route path='/job-applicants/:jobId' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><AllApplicants /></CheckAuth>
+        }></Route>
+
 
 
 

@@ -122,19 +122,7 @@ export const updateStatus = createAsyncThunk('applications/updateStatus', async 
     }
 });
 
-//create schedule
-export const createSchedule = createAsyncThunk('schedule/create', async ({jobId,studentId, formData}, thunkAPI) => {
-    // console.log('asdjk');
-    
-    try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/schedule/create/${jobId}/${studentId}`,formData, { withCredentials: true}); 
-       
-        return response.data;
-    } catch (error) {
 
-        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to create");
-    }
-});
 
 // Auth Slice
 const jobSlice = createSlice({
@@ -257,19 +245,7 @@ const jobSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
-            .addCase(createSchedule.pending, (state, action) => {
-                state.isLoading = true;
-
-            })
-            .addCase(createSchedule.fulfilled, (state, action) => {
-                state.isLoading = false;
-               
-            
-            })
-            .addCase(createSchedule.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload;
-            })
+           
 
     },
 });

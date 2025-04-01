@@ -8,7 +8,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { fetchAllApplicants, updateStatus } from '@/store/jobSlice';
 import { toast } from 'react-toastify';
 import CoordinatorHeader from '@/components/shared/CoordinatorHeader';
-import ScheduleInterview from '@/components/job/ScheduleInterview';
+import ScheduleInterview from '@/components/Schedule/ScheduleInterview';
 import SearchBar from '@/components/shared/SearchBar';
 
 const AllApplicants = () => {

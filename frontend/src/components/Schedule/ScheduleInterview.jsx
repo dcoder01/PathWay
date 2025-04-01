@@ -8,8 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon } from 'lucide-react';
-import { createSchedule } from '@/store/jobSlice';
 import { toast } from 'react-toastify';
+import { createSchedule } from '@/store/scheduleSlice';
 
 const ScheduleInterview = ({ isOpen, onClose, studentId, jobId, studentName, jobTitle }) => {
     const dispatch = useDispatch();
