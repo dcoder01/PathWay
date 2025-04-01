@@ -25,6 +25,7 @@ import JobsCreated from "./pages/jobs/JobsCreated";
 import SchedulesForJob from "./pages/schedules/SchedulesForJob";
 import AllApplicants from "./pages/users/AllApplicants";
 import RecruiterCompanies from "./pages/companies/RecruiterCompanies";
+import EditCompany from "./pages/companies/EditCompany";
 
 
 
@@ -165,6 +166,14 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><RecruiterCompanies /></CheckAuth>
+        }></Route>
+
+        {/* edit company */}
+
+        <Route path='/edit-company/:companyId' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><EditCompany /></CheckAuth>
         }></Route>
 
 

@@ -18,7 +18,7 @@ export const fetchRecruiterCompany = createAsyncThunk("company/fetchRecruiterCom
 
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/company/compnayByRecruiter`, { withCredentials: true });
-    
+
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch company");
@@ -36,6 +36,30 @@ export const registerCompany = createAsyncThunk("company/registerCompany", async
   }
 }
 );
+//fetch company by id
+
+export const fetchCompanyById = createAsyncThunk("company/fetchCompanyById", async (companyId, thunkAPI) => {
+
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/company/fetch/${companyId}`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to get company");
+  }
+}
+);
+//update company
+
+export const updateCompany = createAsyncThunk("company/updateCompany", async ({ companyId, updateData }, thunkAPI) => {
+
+  try {
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/company/update/${companyId}`, updateData, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to update company");
+  }
+}
+);
 
 const companySlice = createSlice({
   name: "company",
@@ -44,6 +68,7 @@ const companySlice = createSlice({
     loading: false,
     error: null,
     recruiterCompany: [],
+    currentCompany: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -78,6 +103,27 @@ const companySlice = createSlice({
 
       })
       .addCase(registerCompany.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchCompanyById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCompanyById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentCompany=action.payload.company
+      })
+      .addCase(fetchCompanyById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateCompany.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCompany.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(updateCompany.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

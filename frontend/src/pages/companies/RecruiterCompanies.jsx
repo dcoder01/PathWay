@@ -43,7 +43,8 @@ const RecruiterCompanies = () => {
 
 
     const handleEditCompany = (companyId) => {
-        //dialog
+        //it's better to have a new page
+        navigate(`/edit-company/${companyId}`);
     };
 
     if (loading) return <div className="text-center py-10">Loading company...</div>;
