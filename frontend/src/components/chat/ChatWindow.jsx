@@ -141,7 +141,11 @@ const ChatWindow = () => {
     const groups = {};
 
     messages.forEach(msg => {
+      // console.log("ts", msg.timestamp);
+
       const date = new Date(msg.timestamp).toLocaleDateString();
+      console.log(date);
+
       if (!groups[date]) {
         groups[date] = [];
       }
@@ -223,11 +227,9 @@ const ChatWindow = () => {
                     <div className="relative flex items-center justify-center">
                       <div className="absolute border-t border-gray-200 w-full"></div>
                       <span className="relative px-2 bg-white text-xs text-gray-500">
-                        {new Date(group.date).toLocaleDateString(undefined, {
-                          weekday: 'long',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
+                        {
+                          group.date
+                        }
                       </span>
                     </div>
                     {group.messages.map((msg, index) => {
