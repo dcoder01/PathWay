@@ -27,6 +27,7 @@ import AllApplicants from "./pages/users/AllApplicants";
 import RecruiterCompanies from "./pages/companies/RecruiterCompanies";
 import EditCompany from "./pages/companies/EditCompany";
 import RegisterCompany from "./pages/companies/RegisterCompany";
+import ChatPage from "./pages/chat/ChatPage";
 
 
 
@@ -182,6 +183,13 @@ function App() {
           <CheckAuth
             isAuthenticated={isAuthenticated}
           ><RegisterCompany /></CheckAuth>
+        }></Route>
+
+        {/* chat */}
+        <Route path='/chat' element={
+          <CheckAuth
+            isAuthenticated={isAuthenticated}
+          ><ChatPage /></CheckAuth>
         }></Route>
 
 
