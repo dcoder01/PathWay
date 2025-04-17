@@ -79,6 +79,7 @@ const scheduleSlice = createSlice({
       .addCase(fetchAllSchedules.fulfilled, (state, action) => {
         state.loading = false;
         state.studentSchedules = action.payload.schedules;
+        state.error=null;
       })
       .addCase(fetchAllSchedules.rejected, (state, action) => {
         state.loading = false;
@@ -86,7 +87,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(createSchedule.pending, (state, action) => {
         state.loading = true;
-
+        state.error=null;
       })
       .addCase(createSchedule.fulfilled, (state, action) => {
         state.loading = false;
