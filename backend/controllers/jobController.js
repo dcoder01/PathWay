@@ -4,6 +4,7 @@ const User = require('../models/userModel')
 const Company = require('../models/companyModel')
 const cloudinary = require("../config/cloudinary");
 const jobModel = require('../models/jobModel');
+const redisCache = require('../utils/redisCache');
 
 
 exports.registerJob = catchAsyncError(async (req, res, next) => {
@@ -37,6 +38,16 @@ exports.registerJob = catchAsyncError(async (req, res, next) => {
 //fetch all the jobs for students
 exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
 
+    const cachedJobs = await redisCache.get("allJobs");
+
+    if (cachedJobs) {
+        return res.status(200).json({
+            jobs:cachedJobs,
+            success: true,
+            // cache:true,
+        });
+    }
+   
     const keyword = req.query.keyword || null;
     const query = keyword ? {
         $or: [
@@ -50,10 +61,13 @@ exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
     if (!jobs) {
         return next(new ErrorHandler("No job found", 404))
     };
+    await redisCache.set("allJobs", jobs);
     return res.status(200).json({
         jobs,
-        success: true
+        success: true,
+        // cache:false,
     })
+   
 
 })
 
