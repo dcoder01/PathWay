@@ -144,7 +144,7 @@ const ChatWindow = () => {
       // console.log("ts", msg.timestamp);
 
       const date = new Date(msg.timestamp).toLocaleDateString();
-      console.log(date);
+      // console.log(date);
 
       if (!groups[date]) {
         groups[date] = [];
