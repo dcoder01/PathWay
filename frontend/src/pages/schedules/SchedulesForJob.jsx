@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  AlertCircle,
   CalendarIcon,
   MoreVertical,
   Trash2
@@ -250,9 +251,10 @@ const SchedulesForJob = () => {
             </TableBody>
           </Table>
         ) : (
-          <div className="text-center py-8 text-gray-500">
-            No schedules found for this job.
-          </div>
+          <div className="flex mt-4 items-center justify-center p-8 bg-red-50 rounded-lg border border-red-200 text-red-800">
+          <AlertCircle className="w-6 h-6 mr-2" />
+          <p>No schedules found for this job.</p>
+        </div>
         )}
 
         <Dialog open={isUpdateDialogOpen} onOpenChange={closeUpdateDialog}>
