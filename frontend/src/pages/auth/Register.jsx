@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Loader, Loader2 } from 'lucide-react'
 import { toast } from 'react-toastify'
-import { register } from '@/store/authSlice'
+import { logout, register } from '@/store/authSlice'
 
 const Register = () => {
 
@@ -35,8 +35,10 @@ const Register = () => {
 
 
             if (data?.payload?.success) {
-                toast.success("signed up successfully!");
-                navigate("/auth/login");
+                toast.success("signed up successfully! waitng for approval.");
+                setTimeout(() => {
+                    dispatch(logout());
+                  }, 1500);
             } else {
                 toast.error(data?.payload || "Signup failed! Try again.");
             }

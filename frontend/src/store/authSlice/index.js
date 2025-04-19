@@ -138,7 +138,7 @@ export const deleteApproval = createAsyncThunk('/approval/delete', async (userId
   try {
     const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/v1/tpo/reject-approval/${userId}`, { withCredentials: true });
 
-    return userId;;
+    return response.data;;
   } catch (error) {
 
 
