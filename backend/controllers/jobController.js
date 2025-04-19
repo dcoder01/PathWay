@@ -28,6 +28,7 @@ exports.registerJob = catchAsyncError(async (req, res, next) => {
         createdBy,
         recruiter,
     });
+    await redisCache.del("allJobs");
     return res.status(201).json({
         job,
         success: true
@@ -42,12 +43,12 @@ exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
 
     if (cachedJobs) {
         return res.status(200).json({
-            jobs:cachedJobs,
+            jobs: cachedJobs,
             success: true,
-            // cache:true,
+            cache: true,
         });
     }
-   
+
     const keyword = req.query.keyword || null;
     const query = keyword ? {
         $or: [
@@ -57,7 +58,7 @@ exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
     } : {};
     const jobs = await jobModel.find(query).populate({
         path: "company"
-    }).sort({ deadline: 1 }); //sort by deadline expiring
+    }).sort({ createdAt: -1 }); //sort by deadline expiring
     if (!jobs) {
         return next(new ErrorHandler("No job found", 404))
     };
@@ -65,9 +66,9 @@ exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
     return res.status(200).json({
         jobs,
         success: true,
-        // cache:false,
+        cache: false,
     })
-   
+
 
 })
 
@@ -76,14 +77,14 @@ exports.fetchAllJobs = catchAsyncError(async (req, res, next) => {
 exports.fetchJobById = catchAsyncError(async (req, res, next) => {
     const jobId = req.params.jobId;
     const job = await jobModel.findById(jobId).populate("applications").populate("company")
-    .populate({
-        path:"createdBy",
-        select:"name"
-    })
-    .populate({
-        path:"recruiter",
-        select:"name"
-    })
+        .populate({
+            path: "createdBy",
+            select: "name"
+        })
+        .populate({
+            path: "recruiter",
+            select: "name"
+        })
     if (!job) {
         return next(new ErrorHandler("No job found", 404))
     };
