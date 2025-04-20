@@ -39,9 +39,7 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-  // const location = useLocation();
-  // const onHomeScreen = location.pathname.startsWith('/home')
-  // const onClassScreen = location.pathname.startsWith("/enter");
+  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">

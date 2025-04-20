@@ -10,7 +10,7 @@ import SearchBar from '@/components/shared/SearchBar';
 import { AlertCircle } from 'lucide-react';
 import Header from '@/components/shared/Header';
 
-const CoordinatorJobListing = () => {
+const JobsCreated = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user } = useSelector((state) => state.authSlice)
@@ -145,4 +145,4 @@ const CoordinatorJobListing = () => {
     );
 };
 
-export default CoordinatorJobListing;
+export default JobsCreated;
