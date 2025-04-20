@@ -1,24 +1,25 @@
-const Errohandler = require('../utils/errorhandler')
 const catchAsyncError = require('../middleware/catchAsyncErrors')
 const User = require('../models/userModel')
 const Company = require('../models/companyModel')
 const cloudinary = require("../config/cloudinary");
 const ErrorHandler = require('../utils/errorhandler');
+const redisCache = require('../utils/redisCache');
 
 exports.registerCompany = catchAsyncError(async (req, res, next) => {
     const { name } = req.body;
     if (!name) {
-        return next(new Errohandler("Company name is required.", 400))
+        return next(new ErrorHandler("Company name is required.", 400))
     }
     let company = await Company.findOne({ name: name, createdBy: req.user._id });
     if (company) {
-        return next(new Errohandler(`You haave already created the company with the name ${name}`, 400))
+        return next(new ErrorHandler(`You haave already created the company with the name ${name}`, 400))
     };
     company = await Company.create({
         name: name,
         createdBy: req.user._id
     });
 
+    await redisCache.del("allCompanies");
 
     return res.status(200).json({ //best practice
         company,
@@ -31,15 +32,23 @@ exports.registerCompany = catchAsyncError(async (req, res, next) => {
 
 exports.getCompanies = catchAsyncError(async (req, res, next) => {  //---> coordinator will fetch this for job creation
 
-    // const companies = await Company.find({}).populate([{
-    //     path: "createdBy",
-    //     select: "name"
-    // }])
+
+    const allCompanies = await redisCache.get("allCompanies");
+
+
+    if (allCompanies) {
+        return res.status(200).json({
+            companies: allCompanies,
+            success: true,
+        });
+    }
     const companies = await Company.find({}).populate("createdBy", "name")
 
     if (!companies) {
-        return next(new Errohandler(`No company found`, 404))
+        return next(new ErrorHandler(`No company found`, 404))
     }
+    await redisCache.set("allCompanies", companies);
+
     return res.status(200).json({
         companies,
         success: true
@@ -51,10 +60,10 @@ exports.getCompanies = catchAsyncError(async (req, res, next) => {  //---> coord
 exports.getCompany = catchAsyncError(async (req, res, next) => {
 
     const userId = req.user._id;
-    const companies = await Company.find({ createdBy:userId });
+    const companies = await Company.find({ createdBy: userId });
 
     if (!companies) {
-        return next(new Errohandler(`No company found`, 404))
+        return next(new ErrorHandler(`No company found`, 404))
     }
     return res.status(200).json({
         companies,
@@ -72,7 +81,7 @@ exports.getCompanyById = catchAsyncError(async (req, res, next) => {
     const companyId = req.params.companyId;
     const company = await Company.findById(companyId);
     if (!company) {
-        return next(new Errohandler(`No company found`, 404))
+        return next(new ErrorHandler(`No company found`, 404))
     }
     return res.status(200).json({
         company,
@@ -145,6 +154,7 @@ exports.updateCompany = catchAsyncError(async (req, res, next) => {
     if (!company) {
         return next(new ErrorHandler(`No company found`, 404));
     }
+    await redisCache.del("allCompanies");
 
     return res.status(200).json({
         company,
