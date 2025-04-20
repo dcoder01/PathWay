@@ -70,6 +70,7 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     await user.save()
     await redisCache.del(`myApplications:${userId}`);
     await redisCache.del(`applicants:${jobId}`);
+    await redisCache.del(`createdJobs:${job.createdBy}`);
 
     return res.status(200).json({
         success: true
