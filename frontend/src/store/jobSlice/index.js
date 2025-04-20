@@ -51,7 +51,7 @@ export const fetchSingleJob = createAsyncThunk('application/fetch/single', async
 });
 
 //applying for jjob
-export const applyJob = createAsyncThunk('application/apply/job', async ({ formData}, thunkAPI) => {
+export const applyJob = createAsyncThunk('application/apply/job', async ({ formData, jobId}, thunkAPI) => {
     // console.log('asdjk');
 
     

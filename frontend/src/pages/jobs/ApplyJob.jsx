@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { useNavigate, useParams } from 'react-router-dom'
 
 
-const ResumeUpload = () => {
+const ApplyJob = () => {
     const [file, setFile] = useState(null)
     const [uploading, setUploading] = useState(false)
     const dispatch = useDispatch()
@@ -117,4 +117,4 @@ const ResumeUpload = () => {
     )
 }
 
-export default ResumeUpload
+export default ApplyJob
