@@ -29,6 +29,8 @@ exports.registerJob = catchAsyncError(async (req, res, next) => {
         recruiter,
     });
     await redisCache.del("allJobs");
+    await redisCache.del(`createdJobs:${createdBy}`);
+
     return res.status(201).json({
         job,
         success: true
@@ -99,13 +101,21 @@ exports.fetchJobById = catchAsyncError(async (req, res, next) => {
 
 exports.fetchAllJobsCoordinator = catchAsyncError(async (req, res, next) => {
     const userId = req.user._id;
+    const createdJobs = await redisCache.get(`createdJobs:${userId}`);
+    if (createdJobs) {
+        return res.status(200).json({
+            jobs: createdJobs,
+            success: true,
+        });
+    }
     const jobs = await jobModel.find({ createdBy: userId }).populate({
         path: 'company',
-        createdAt: -1
-    });
+    }).sort({ createdAt: -1 });
     if (!jobs) {
         return next(new ErrorHandler("No job found", 404))
     };
+    await redisCache.set(`createdJobs:${userId}`, jobs);
+
     return res.status(200).json({
         jobs,
         success: true
