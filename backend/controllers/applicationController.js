@@ -69,6 +69,8 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     user.applications = newApplication._id
     await user.save()
     await redisCache.del(`myApplications:${userId}`);
+    await redisCache.del(`applicants:${jobId}`);
+
     return res.status(200).json({
         success: true
     })
@@ -81,7 +83,7 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
 exports.fetchAppliedJobs = catchAsyncError(async (req, res, next) => {
 
     const userId = req.user._id;
-    
+
     const myApplications = await redisCache.get(`myApplications:${userId}`);
     if (myApplications) {
         return res.status(200).json({
@@ -100,7 +102,7 @@ exports.fetchAppliedJobs = catchAsyncError(async (req, res, next) => {
     if (!applications) {
         return next(new ErrorHandler('No Applications', 400));
     };
-    
+
     await redisCache.set(`myApplications:${userId}`, applications);
     return res.status(200).json({
         applications,
@@ -112,6 +114,13 @@ exports.fetchAppliedJobs = catchAsyncError(async (req, res, next) => {
 //fetch applicants by coordinator and recruiter
 exports.fetchApplicants = catchAsyncError(async (req, res, next) => {
     const jobId = req.params.jobId;
+    const applicants = await redisCache.get(`applicants:${jobId}`);
+    if (applicants) {
+        return res.status(200).json({
+            job: applicants,
+            success: true,
+        });
+    }
     const job = await jobModel.findById(jobId).populate({
         path: 'applications',
         options: { sort: { createdAt: -1 } },
@@ -122,6 +131,8 @@ exports.fetchApplicants = catchAsyncError(async (req, res, next) => {
     if (!job) {
         return next(new ErrorHandler('Job not found', 400));
     };
+    await redisCache.set(`applicants:${jobId}`, job);
+
     return res.status(200).json({
         job,
         succees: true
@@ -146,7 +157,8 @@ exports.updateStatus = catchAsyncError(async (req, res, next) => {
     application.status = status.toLowerCase();
     await application.save();
     await redisCache.del(`myApplications:${application.student}`);
-    
+    await redisCache.del(`applicants:${application.job}`);
+
     return res.status(200).json({
         message: "Status updated successfully.",
         success: true
