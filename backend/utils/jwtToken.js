@@ -11,6 +11,7 @@ const sendToken = (user, statusCode, res) => {
       role: user.role,
       profile:user.profile,
       createdAt: user.createdAt,
+      isApproved:user.isApproved
     };
     // options for cookie
     const options = {
