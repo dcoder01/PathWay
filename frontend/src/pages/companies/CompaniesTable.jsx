@@ -94,7 +94,7 @@ const CompaniesTable = ({ searchInput }) => {
     <div className="bg-white rounded-lg shadow-sm border">
       <div className="p-4 flex justify-between items-center border-b">
         <div className="flex items-center">
-          <Building className="mr-2 text-blue-600" />
+         
           <h2 className="text-lg font-medium">All Companies</h2>
         </div>
         <Badge variant="outline" className="text-amber-500 px-2.5 py-0.5">
@@ -131,11 +131,11 @@ const CompaniesTable = ({ searchInput }) => {
           </TableHeader>
           <TableBody>
             {filterCompany.map((company) => (
-              <TableRow key={company._id} className="hover:bg-blue-50 transition-colors cursor-default">
+              <TableRow key={company._id} className="hover:bg-gray-50 transition-colors cursor-default">
                 <TableCell>
                   <Avatar className="border">
                     <AvatarImage src={company.logo} alt={company.name} />
-                    <AvatarFallback className="bg-blue-100 text-blue-800 font-medium">
+                    <AvatarFallback className="bg-blue-100 text-gray-800 font-medium">
                       {getInitials(company.name)}
                     </AvatarFallback>
                   </Avatar>
