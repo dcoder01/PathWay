@@ -4,7 +4,7 @@ const User = require('../models/userModel')
 const Company = require('../models/companyModel')
 const cloudinary = require("../config/cloudinary");
 const ErrorHandler = require('../utils/errorhandler');
-const ApplicationModel = require('../models/ApplicationModel');
+const applicationModel = require('../models/applicationModel')
 const jobModel = require('../models/jobModel');
 const userModel = require('../models/userModel');
 const redisCache = require('../utils/redisCache');
@@ -18,7 +18,7 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
     if (!jobId || !file) {
         return next(new Errohandler("One or more fields are required.", 400))
     };
-    const existingApplication = await ApplicationModel.findOne({ job: jobId, student: userId });
+    const existingApplication = await applicationModel.findOne({ job: jobId, student: userId });
 
     if (existingApplication) {
         return next(new Errohandler("You have already applied for this jobs", 400))
@@ -56,7 +56,7 @@ exports.applyJob = catchAsyncError(async (req, res, next) => {
         resume = fileResult.secure_url;
     }
 
-    const newApplication = await ApplicationModel.create({
+    const newApplication = await applicationModel.create({
         student: userId,
         job: jobId,
         applicant: userId,
@@ -92,7 +92,7 @@ exports.fetchAppliedJobs = catchAsyncError(async (req, res, next) => {
             success: true,
         });
     }
-    const applications = await ApplicationModel.find({ student: userId }).sort({ createdAt: -1 }).populate({
+    const applications = await applicationModel.find({ student: userId }).sort({ createdAt: -1 }).populate({
         path: 'job',
         options: { sort: { createdAt: -1 } },
         populate: {
@@ -150,7 +150,7 @@ exports.updateStatus = catchAsyncError(async (req, res, next) => {
     };
 
 
-    const application = await ApplicationModel.findOne({ _id: applicationId });
+    const application = await applicationModel.findOne({ _id: applicationId });
     if (!application) {
         return next(new ErrorHandler('Application not found', 404));
     };

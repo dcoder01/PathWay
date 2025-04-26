@@ -4,7 +4,7 @@ const User = require('../models/userModel')
 const Company = require('../models/companyModel')
 const cloudinary = require("../config/cloudinary");
 const ErrorHandler = require('../utils/errorhandler');
-const ApplicationModel = require('../models/ApplicationModel');
+const applicationModel = require('../models/applicationModel')
 const jobModel = require('../models/jobModel');
 const userModel = require('../models/userModel');
 const scheduleModel = require('../models/scheduleModel');
@@ -62,7 +62,7 @@ exports.createSchedule = catchAsyncError(async (req, res, next) => {
         location
     });
 
-    const application = await ApplicationModel.findOneAndUpdate(
+    const application = await applica.findOneAndUpdate(
         { job: jobId, student: userId },  
         { schedule: newSchedule._id },   
         { new: true }           
@@ -120,7 +120,7 @@ exports.deleteSchedule = async (req, res, next) => {
         $pull: { schedules: scheduleId }
     });
 
-    await ApplicationModel.findOneAndUpdate(
+    await applicationModel.findOneAndUpdate(
         { student: schedule.student, job: schedule.job },
         { $unset: { schedule: "" } } 
     );
