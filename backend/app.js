@@ -30,4 +30,8 @@ app.use('/api/v1', require("./routes/index.js"))
 
 app.use(errorMiddleware)
 
+//favicon log elimination
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end();
+  });
 module.exports = app
